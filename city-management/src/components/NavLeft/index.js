@@ -3,6 +3,7 @@ import MenuConfig from '../../resources/menuConfig';
 import './index.less';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import { Menu } from 'antd';
+import { Link } from 'react-router-dom';
 
 class NavLeft extends Component {
 
@@ -29,7 +30,9 @@ class NavLeft extends Component {
                     </SubMenu>
                 )
             }
-            return <Menu.Item key={item.key}>{item.title}</Menu.Item>
+            return <Menu.Item key={item.key}>
+                        <Link to={item.key}>{item.title}</Link>
+                    </Menu.Item>
         });
     }
 
