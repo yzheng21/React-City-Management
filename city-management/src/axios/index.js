@@ -7,10 +7,10 @@ export default class Axios {
                 param: 'callback'
             }, function(err, response) {
                 // to-do
-                if (response.status === 'success') {
+                if (response && response.status === 'success') {
                     resolve(response);
                 } else {
-                    reject(response.message);
+                    reject(response && response.message);
                 }
             });
         });

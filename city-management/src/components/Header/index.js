@@ -26,7 +26,7 @@ class Header extends Component {
         axios.jsonp({
             url: 'http://api.map.baidu.com/telematics/v3/weather?location=' + encodeURIComponent(city) + '&output=XML&ak=FK9mkfdQsloEngodbFl4FeY3' 
         }).then((res) => {
-            if (res.status === 'success') {
+            if (res && res.status === 'success') {
                 let data = res.results[0].weather_data[0];
                 this.setState({
                     dayPictureUrl: data.dayPictureUrl,
