@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import './style/common.less';
 import NavLeft from './components/NavLeft/index';
+import Home from './pages/home';
 
 class Admin extends Component {
     render() {
@@ -15,7 +16,7 @@ class Admin extends Component {
                 <Col span={20} className="main">
                     <Header />
                     <Row className="content">
-                        Content
+                        <Home />
                     </Row>
                     <Footer />
                 </Col>
