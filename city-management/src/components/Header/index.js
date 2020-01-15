@@ -1,72 +1,79 @@
-import React, { Component } from 'react';
-import './index.less';
-import { Row, Col } from 'antd';
-import Util from '../../Utils/util';
-import axios from '../../axios';
-
-class Header extends Component {
-    constructor() {
-        super();
-        this.state = {sysTime: Util.formateDate(new Date().getTime())};
-    }
-
-    componentDidMount() {
+import React from 'react'
+import { Row,Col } from "antd"
+import './index.less'
+import Util from '../../utils/utils'
+import axios from '../../axios'
+import { connect } from 'react-redux';
+class Header extends React.Component{
+    state={}
+    componentWillMount(){
         this.setState({
-            username: 'YUFAN'
-        });
-        setInterval(() => {
+            userName:'河畔一角'
+        })
+        setInterval(()=>{
             let sysTime = Util.formateDate(new Date().getTime());
-            this.setState({sysTime});
-        }, 1000);
-        this.getWeatherAPIDate();
+            this.setState({
+                sysTime
+            })
+        },1000)
+        this.getWeatherAPIData();
     }
 
-    getWeatherAPIDate() {
+    getWeatherAPIData(){
         let city = '北京';
         axios.jsonp({
-            url: 'http://api.map.baidu.com/telematics/v3/weather?location=' + encodeURIComponent(city) + '&output=XML&ak=FK9mkfdQsloEngodbFl4FeY3' 
-        }).then((res) => {
-            if (res && res.status === 'success') {
+            url:'http://api.map.baidu.com/telematics/v3/weather?location='+encodeURIComponent(city)+'&output=json&ak=3p49MVra6urFRGOT9s8UBWr2'
+        }).then((res)=>{
+            if(res.status == 'success'){
                 let data = res.results[0].weather_data[0];
                 this.setState({
-                    dayPictureUrl: data.dayPictureUrl,
-                    weather: data.weather
-                });
+                    dayPictureUrl:data.dayPictureUrl,
+                    weather:data.weather
+                })
             }
-        });
+        })
     }
-
-    render() {
+    render(){
+        const menuType = this.props.menuType;
         return (
             <div className="header">
                 <Row className="header-top">
-                    <Col span={24}>
-                        <span>Welcome, {this.state.username}</span>
-                        <a href="#">Sign out</a>
+                    {
+                        menuType?
+                            <Col span="6" className="logo">
+                                <img src="/assets/logo-ant.svg" alt=""/>
+                                <span>IMooc 通用管理系统</span>
+                            </Col>:''
+                    }
+                    <Col span={menuType?18:24}>
+                        <span>欢迎，{this.state.userName}</span>
+                        <a href="#">退出</a>
                     </Col>
                 </Row>
-                <Row className="breadcrumb">
-                    <Col span={4} className="breadcrumb-title">
-                        Home
-                    </Col>
-                    {
-                            this.state.weather ? 
-                            <Col span={20} className="weather">
+                {
+                    menuType?'':
+                        <Row className="breadcrumb">
+                            <Col span="4" className="breadcrumb-title">
+                                { this.props.menuName }
+                            </Col>
+                            <Col span="20" className="weather">
                                 <span className="date">{this.state.sysTime}</span>
                                 <span className="weather-img">
                                     <img src={this.state.dayPictureUrl} alt="" />
                                 </span>
-                                <span className="weather-detail">{this.state.weather}</span>
-                            </Col> : 
-                            <Col span={20} className="weather">
-                                <span className="date">{this.state.sysTime}</span>
-                                <span>Sunny</span>
+                                <span className="weather-detail">
+                                    {this.state.weather}
+                                </span>
                             </Col>
-                    }
-                </Row>
+                        </Row>
+                }
             </div>
         );
     }
 }
-
-export default Header;
+const mapStateToProps = state => {
+    return {
+        menuName:state.menuName
+    }
+}
+export default connect(mapStateToProps)(Header);

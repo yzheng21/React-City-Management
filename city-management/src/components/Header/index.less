@@ -1,54 +1,67 @@
-@import '../../style/default.less';
-
-.header {
-    background-color: @colorC;
-    font-size: 15px;
-
-    .header-top {
+@import './../../style/default.less';
+.header{
+    background-color: @colorM;
+    .header-top{
         height: 60px;
         line-height: 60px;
         padding: 0 20px;
         text-align: right;
-
-        a {
+        .logo{
+            line-height: 60px;
+            text-align: left;
+            font-size: 18px;
+            img{
+                height: 40px;
+                vertical-align: middle;
+            }
+            span{
+                margin-left: 5px;
+            }
+        }
+        a{
             margin-left: 40px;
         }
     }
-
-    .breadcrumb {
+    .breadcrumb{
         height: 40px;
         line-height: 40px;
         padding: 0 20px;
-        border-top: 1px solid #40a9ff;
-
-        .breadcrumb-title {
+        border-top: 1px solid #f9c700;
+        .breadcrumb-title{
             text-align: center;
-
-            &::after {
-                content: '';
+            font-size: @fontC;
+            &:after{
                 position: absolute;
-                top: 39px;
-                left: 44%;
-                width: 10px;
-                height: 10px;
-                border-top: 9px solid @colorC;
+                content: '';
+                left:73px;
+                top:39px;
+                border-top: 9px solid @colorM;
                 border-left: 12px solid transparent;
                 border-right: 12px solid transparent;
             }
         }
-
-        .weather {
+        .weather{
             text-align: right;
-
-            .date {
-                padding: 0 20px;
+            font-size: 14px;
+            .date{
+                margin-right: 10px;
+                vertical-align: middle;
             }
-
-            .weather-img {
-                img {
-                    height: 20px;
+            .weather-img{
+                img{
+                    height: 15px;
                 }
+            }
+            .weather-detail{
+                margin-left: 5px;
+                vertical-align: middle;
             }
         }
     }
+}
+.simple-page{
+  .header-top{
+    background:#1890ff;
+    color:@colorM;
+  }
 }

@@ -1,54 +1,61 @@
-import React, { Component } from 'react';
-import MenuConfig from '../../resources/menuConfig';
-import './index.less';
-import SubMenu from 'antd/lib/menu/SubMenu';
-import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
-
-class NavLeft extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {};
+import React from 'react'
+import { Menu, Icon } from 'antd';
+import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { switchMenu } from './../../redux/action'
+import MenuConfig from './../../config/menuConfig'
+import './index.less'
+const SubMenu = Menu.SubMenu;
+class NavLeft extends React.Component {
+    state = {
+        currentKey:''
     }
-
-    componentDidMount() {
-        const menuTreeNode = this.renderMenu(MenuConfig);
+    handleClick = ({ item ,key})=>{
+        const { dispatch } = this.props;
+        dispatch(switchMenu(item.props.title))
         this.setState({
-            menuTreeNode: menuTreeNode      
-        }, function() {
-            // console.log('state', this.state.menuTreeNode);
-        });
+            currentKey:key
+        })
     }
-
-    renderMenu = (data) => {
-        return data.map((item) => {
-            if (item.children) {
+    componentWillMount(){
+        const menuTreeNode = this.renderMenu(MenuConfig);
+        let currentKey = window.location.hash.replace(/#|\?.*$/g, '');
+        this.setState({
+            currentKey,
+            menuTreeNode
+        })
+    }
+    // 菜单渲染
+    renderMenu =(data)=>{
+        return data.map((item)=>{
+            if(item.children){
                 return (
                     <SubMenu title={item.title} key={item.key}>
-                        {this.renderMenu(item.children)}
+                        { this.renderMenu(item.children)}
                     </SubMenu>
                 )
             }
-            return <Menu.Item key={item.key}>
-                        <Link to={item.key}>{item.title}</Link>
-                    </Menu.Item>
-        });
+            return <Menu.Item title={item.title} key={item.key}>
+                <NavLink to={item.key}>{item.title}</NavLink>
+            </Menu.Item>
+        })
     }
-
     render() {
         return (
             <div>
                 <div className="logo">
-                    <img src="/assets/logo.svg" alt="" />
+                    <img src="/assets/logo-ant.svg" alt=""/>
                     <h1>Imooc MS</h1>
                 </div>
-                <Menu theme="dark">
-                    {this.state.menuTreeNode}
+                <Menu
+                    onClick={this.handleClick}
+                    selectedKeys={this.state.currentKey}
+                    theme="dark"
+                >
+                    { this.state.menuTreeNode }
                 </Menu>
             </div>
         );
     }
 }
-
-export default NavLeft;
+export default connect()(NavLeft);
