@@ -1,11 +1,10 @@
 import React from 'react';
-import { Card, Button, Table, Form, Select, Modal, DatePicker, message} from 'antd'
+import { Card, Button, Form, Modal, message} from 'antd'
 import axios from '../../axios'
 import Utils from '../../utils/utils'
 import BaseForm from '../../components/BaseForm'
 import ETable from './../../components/ETable'
 const FormItem = Form.Item;
-const Option = Select.Option;
 export default class Order extends React.Component{
     state  = {
         orderInfo:{},
@@ -67,7 +66,7 @@ export default class Order extends React.Component{
                 }
             }
         }).then((res)=>{
-            if(res.code ==0 ){
+            if(res.code === 0 ){
                 this.setState({
                     orderInfo:res.result,
                     orderConfirmVisble: true
@@ -87,7 +86,7 @@ export default class Order extends React.Component{
                 }
             }
         }).then((res) => {
-            if (res.code == 0) {
+            if (res.code === 0) {
                 message.success('订单结束成功')
                 this.setState({
                     orderConfirmVisble: false
